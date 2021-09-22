@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     }
 
     long n = atol(argv[1]);
-    long r = atoi(argv[2]);
+    int r = atoi(argv[2]);
     int a = atoi(argv[3]);
     int b = atoi(argv[4]);
     long s = atoi(argv[5]);
@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     int y = atoi(argv[7]);
 
     printf("Fibonacci Input            = %ld", n);
-    printf("Buffon's Needle Iterations = %ld", r);
+    printf("Buffon's Needle Iterations = %d", r);
     printf("Total random Number Pairs  = %ld", s);
     printf("Semi-Major Axis Length     = %d", a);
     printf("Semi-Minor Axis Length     = %d", b);
@@ -38,4 +38,9 @@ long fibonacci(int n) {
     return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
+void buffon(int r) {
+    //r = iterations of problem
+    const double PI = acos(-1.0); //define PI according to slides
 
+
+}
