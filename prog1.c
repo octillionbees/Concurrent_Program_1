@@ -38,9 +38,23 @@ long fibonacci(int n) {
     return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
-void buffon(int r) {
+float buffon(int r) {
     //r = iterations of problem
     const double PI = acos(-1.0); //define PI according to slides
+    float d;
+    float a;
 
+    int t = 0;
 
+    for (int i = 0; i < r; i++) {
+        d = (float rand())/RAND_MAX;
+        a = d * 2 * PI;
+
+        float result = d + sinf(a);
+        if (result < 0 || result > 1) {
+            t++;
+        }
+    }
+
+    return t/r;
 }
