@@ -4,3 +4,97 @@ Due Date: 09/29/2021
 File Name: prog1.c
 
 Question 1:
+[main process]
+    |
+    -----> [child process 1]
+               |
+               -----> [child process 1.1]
+                          |
+                          -----> [child process 1.1.1]
+The provided code snippet generates 3 child processes, which results in a total
+4 processes (including the main process). The way that the if statement 
+evaluates the return value of fork(), any value other than 0 will result in the
+loop calling 'break;', which prevents the further calling of fork(). Thus, only
+child processes can call fork(), and will only do so once before becoming 
+parent processes themselves. Since each child process maintains the data from 
+their parent, there will not be an infinite loop of children creating children.
+
+Question 2:
+[main process]
+    |
+    -----> [child process 1] //child, fork returns 0 => break;
+    |
+    -----> [child process 2] //child, fork returns 0 => break;
+    |
+    -----> [child process 3] //child, fork returns 0 => break;
+The provided code snippet generates 4 child processes, which, when combined 
+with the main process, results in 5 total processes being created by the
+program. In each step of the for loop, the main process forks a new child 
+process, which then breaks out of the for loop (fork returns 0 for the child
+process), prints to stdout, and then exits. The main process does this 4 times
+(i starts at 1 and goes to 4), before printing its own statement, sleeping, 
+and exiting.
+
+
+Question 3:
+[main process]
+    |
+    -----> [child process 1]
+    |          |
+    |          -----> [child process 1.1]
+    |          |          |
+    |          |          -----> [child process 1.1.1]
+    |          |          |          
+    |          |          -----> [child process 1.1.2]
+    |          |                    
+    |          -----> [child process 1.2]
+    |          |          |
+    |          |          -----> [child process 1.2.1]
+    |          |          |         
+    |          |          -----> [child process 1.2.2]
+    |          |                    
+    |          -----> [child process 1.3]
+    |                     |
+    |                     -----> [child process 1.3.1]
+    |                     |          
+    |                     -----> [child process 1.3.2]
+    |                                
+    -----> [child process 2]
+    |          |
+    |          -----> [child process 2.1]
+    |          |          |
+    |          |          -----> [child process 2.1.1]
+    |          |          |         
+    |          |          -----> [child process 2.1.2]
+    |          |                     
+    |          -----> [child process 2.2]
+    |          |          |
+    |          |          -----> [child process 2.2.1]
+    |          |          |          
+    |          |          -----> [child process 2.2.2]
+    |          |                    
+    |          -----> [child process 2.3]
+    |                     |
+    |                     -----> [child process 2.3.1]
+    |                     |         
+    |                     -----> [child process 2.3.2]
+    |                                
+    -----> [child process 3]
+               |
+               -----> [child process 3.1]
+               |          |
+               |          -----> [child process 3.1.1]
+               |          |          
+               |          -----> [child process 3.1.2]
+               |                     
+               -----> [child process 3.2]
+               |          |
+               |          -----> [child process 3.2.1]
+               |          |          
+               |          -----> [child process 3.2.2]
+               |                     
+               -----> [child process 3.3]
+                          |
+                          -----> [child process 3.3.1]
+                          |          
+                          -----> [child process 3.3.2]
