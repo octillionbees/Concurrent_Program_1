@@ -10,13 +10,15 @@
 long fibonacci(int n);
 float buffon(int r);
 void ellipse(int a, int b, int s, char* buf);
-void ballDropping(int x, int y);
+void ballDropping(int x, int y, char* buf);
 
 int main(int argc, char* argv[]) {
 
     char buf[100];
     int status;
 
+
+    //srand(1234);
     sprintf(buf, "Main Process Started\n");
     write(1, buf, strlen(buf));
 
@@ -144,6 +146,17 @@ int main(int argc, char* argv[]) {
                     //child process 4 logic
                     sprintf(buf, "Pinball Process Created\n");
                     write(1, buf, strlen(buf));
+
+                    sprintf(buf, "Simple Pinball Process Started\n");
+                    write(1, buf, strlen(buf));
+
+                    sprintf(buf, "Number of Bins %d\n", x);
+                    write(1, buf, strlen(buf));
+
+                    sprintf(buf, "Number of Ball Droppings %d\n");
+                    write(1, buf, strlen(buf));
+
+                    ballDropping(x, y, buf);
                 } else {
                     //still in main process
                     sprintf(buf, "Main Process Waits\n");
@@ -226,7 +239,7 @@ void ellipse(int a, int b, int s, char *buf) {
     write(1, buf, strlen(buf));
 }
 
-void ballDropping(int x, int y) {
+void ballDropping(int x, int y, char* buf) {
     int *bins = (int*) calloc(x, sizeof(int));
 
     double bin;
@@ -245,5 +258,30 @@ void ballDropping(int x, int y) {
         bins[(int)bin - 1]++;
     }
 
+    float percent;
+    float *percents = malloc(sizeof(float) * x);
+    float max = 0;
+
+    for (int i = 0; i < x; i++) {
+        percent = ((float) bins[i] / y) * 100;
+        if (percent > max) {
+            max = percent;
+        }
+        percents[i] = percent;
+    }
+
+    for (int i = 1; i <= x; i++) {
+        sprintf(buf,"%3d-(%7d)-(%5.2f%) | ", i, bins[i-1], percents[i - 1]);
+        int numStars = ((float) percents[i -1] / max) * 50;
+        for (int j = 0; j < numStars; j++) {
+            int startInd = strlen(buf);
+            sprintf(&buf[startInd], "*");
+        }
+        int startInd = strlen(buf);
+        sprintf(&buf[startInd], "\n");
+        write(1, buf, strlen(buf));
+    }
+
+    free(percents);
     free(bins);
 }
