@@ -128,6 +128,11 @@ int main(int argc, char* argv[]) {
                 sprintf(buf, "         Semi-Minor Axis Length %d\n", b);
                 write(1, buf, strlen(buf));
 
+                ellipse(a, b, s, buf);
+
+                sprintf(buf, "         Ellipse Area Process Exits\n");
+                write(1, buf, strlen(buf));
+
             } else {
                 //still in main process
                 pid = fork();
@@ -196,6 +201,7 @@ void ellipse(int a, int b, int s, char *buf) {
     int t = 0;
     float x;
     float y;
+    const double PI = acos(-1.0); // define pi according to slides
 
     for (int i = 0; i < s; i++) {
         //generate a random point in the rectangle bounded by the x and y axes, and the lines x = a, y = b
@@ -208,7 +214,16 @@ void ellipse(int a, int b, int s, char *buf) {
         }
     }
 
-    ((t/s) * a * b) * 4;
+    sprintf(buf, "         Total Hits %d\n", t);
+    write(1, buf, strlen(buf));
+
+    float estArea = (((float) t/s) * a * b) * 4;
+    sprintf(buf, "         Estimated Area is %2.5f\n", estArea);
+    write(1, buf, strlen(buf));
+
+    float actArea = (float) a * b * PI;
+    sprintf(buf, "         Actual Area is %2.5f\n", actArea);
+    write(1, buf, strlen(buf));
 }
 
 void ballDropping(int x, int y) {
