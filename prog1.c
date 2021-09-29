@@ -52,7 +52,7 @@ float buffon(int r) {
     int t = 0;
 
     for (int i = 0; i < r; i++) {
-        d = (float rand())/RAND_MAX;
+        d = ((float) rand()) / RAND_MAX;
         a = d * 2 * PI;
 
         float result = d + sinf(a);
@@ -72,8 +72,8 @@ float ellipse(int a, int b, int s) {
 
     for (int i = 0; i < s; i++) {
         //generate a random point in the rectangle bounded by the x and y axes, and the lines x = a, y = b
-        x = ((float rand())/RAND_MAX) * a;
-        y = ((float rand())/RAND_MAX) * b;
+        x = (((float) rand()) / RAND_MAX) * a;
+        y = (((float) rand())/RAND_MAX) * b;
 
         float result = powf(x, 2)/pow(a, 2) + powf(y, 2)/pow(b, 2);
         if (result <= 1) {
@@ -100,6 +100,6 @@ void ballDropping(int x, int y) {
                 bin = bin - 0.5;
             }
         }
-        bins[bin]++;
+        bins[(int)bin - 1]++;
     }
 }
