@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
 
 long fibonacci(int n);
 float buffon(int r);
@@ -8,11 +11,17 @@ float ellipse(int a, int b, int s);
 void ballDropping(int x, int y);
 
 int main(int argc, char* argv[]) {
-    printf("Main Process Started\n");
+
+    char buf[100];
+
+    sprintf(buf, "Main Process Started\n");
+    write(1, buf, strlen(buf));
 
     if (argc < 8 ) {
-        printf("Not enough command line arguments!\n");
-        printf("Usage: ./prog1 n r a b s x y\n");
+        sprintf(buf, "Not enough command line arguments!\n");
+        write(1, buf, strlen(buf));
+        sprintf(buf, "Usage: ./prog1 n r a b s x y\n");
+        write(1, buf, strlen(buf));
         return 1;
     }
 
@@ -24,14 +33,24 @@ int main(int argc, char* argv[]) {
     int x = atoi(argv[6]);
     int y = atoi(argv[7]);
 
-    printf("Fibonacci Input            = %ld", n);
-    printf("Buffon's Needle Iterations = %d", r);
-    printf("Total random Number Pairs  = %d", s);
-    printf("Semi-Major Axis Length     = %d", a);
-    printf("Semi-Minor Axis Length     = %d", b);
-    printf("Number of Bins             = %d", x);
-    printf("Number of Ball Droppings   = %d", y);
+    sprintf(buf, "Fibonacci Input            = %ld\n", n);
+    write(1, buf, strlen(buf));
+    sprintf(buf, "Buffon's Needle Iterations = %d\n", r);
+    write(1, buf, strlen(buf));
+    sprintf(buf, "Total random Number Pairs  = %d\n", s);
+    write(1, buf, strlen(buf));
+    sprintf(buf, "Semi-Major Axis Length     = %d\n", a);
+    write(1, buf, strlen(buf));
+    sprintf(buf, "Semi-Minor Axis Length     = %d\n", b);
+    write(1, buf, strlen(buf));
+    sprintf(buf, "Number of Bins             = %d\n", x);
+    write(1, buf, strlen(buf));
+    sprintf(buf, "Number of Ball Droppings   = %d\n", y);
+    write(1, buf, strlen(buf));
 
+
+    sprintf(buf, "Main Process Exits\n");
+    write(1, buf, strlen(buf));
     return 0;
 }
 
@@ -102,4 +121,6 @@ void ballDropping(int x, int y) {
         }
         bins[(int)bin - 1]++;
     }
+
+    free(bins);
 }

@@ -4,9 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
+#include <unistd.h>
 
 
 int main(int argc, char* argv[]) {
+    char buf[100];
+
     if (argc < 3) {
         printf("Not enough cmd line arguments");
     }
@@ -14,10 +18,11 @@ int main(int argc, char* argv[]) {
     int x = atoi(argv[1]);
     int y = atoi(argv[2]);
 
-    printf("Testing Ball Dropping Method\n");
+    sprintf(buf,"Testing Ball Dropping Method\n");
+    write(1, buf, strlen(buf));
 
-    printf("Number of Bins %d\n", x);
-    printf("Number of Ball Droppings %d\n", y);
+    sprintf(buf, "Number of Bins %d\n", x);
+    sprintf(buf, "Number of Ball Droppings %d\n", y);
 
     int *bins = (int*) calloc(x, sizeof(int));
 
@@ -42,4 +47,6 @@ int main(int argc, char* argv[]) {
         percent = ((float) bins[i-1] / y) * 100;
         printf("%3d-(%7d)-(%5.2f%)\n", i, bins[i-1], percent);
     }
+
+    free(bins);
 }
