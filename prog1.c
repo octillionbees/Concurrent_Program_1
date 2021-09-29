@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <math.h>
 
+long fibonacci(int n);
+float buffon(int r);
+float ellipse(int a, int b, int s);
+void ballDropping(int x, int y);
+
 int main(int argc, char* argv[]) {
     printf("Main Process Started\n");
 
@@ -77,4 +82,24 @@ float ellipse(int a, int b, int s) {
     }
 
     return ((t/s) * a * b) * 4;
+}
+
+void ballDropping(int x, int y) {
+    int bins = calloc(x, sizeof(int));
+
+    double bin;
+    int roll;
+
+    for (int i = 0; i < y; i++) {
+        bin = (x / 2) + 0.5; //place ball above the starting peg
+        for (int j = 0; j < x - 1; j++) {
+            roll = rand() % 2;
+            if(roll) {
+                bin = bin + 0.5;
+            } else {
+                bin = bin - 0.5;
+            }
+        }
+        bins[bin]++;
+    }
 }
