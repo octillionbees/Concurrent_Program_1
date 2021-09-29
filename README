@@ -44,57 +44,48 @@ Question 3:
     |          -----> [child process 1.1]
     |          |          |
     |          |          -----> [child process 1.1.1]
-    |          |          |          
-    |          |          -----> [child process 1.1.2]
     |          |                    
     |          -----> [child process 1.2]
-    |          |          |
-    |          |          -----> [child process 1.2.1]
-    |          |          |         
-    |          |          -----> [child process 1.2.2]
-    |          |                    
-    |          -----> [child process 1.3]
     |                     |
-    |                     -----> [child process 1.3.1]
-    |                     |          
-    |                     -----> [child process 1.3.2]
+    |                     -----> [child process 1.2.1]
     |                                
     -----> [child process 2]
     |          |
     |          -----> [child process 2.1]
     |          |          |
     |          |          -----> [child process 2.1.1]
-    |          |          |         
-    |          |          -----> [child process 2.1.2]
     |          |                     
     |          -----> [child process 2.2]
-    |          |          |
-    |          |          -----> [child process 2.2.1]
-    |          |          |          
-    |          |          -----> [child process 2.2.2]
-    |          |                    
-    |          -----> [child process 2.3]
     |                     |
-    |                     -----> [child process 2.3.1]
-    |                     |         
-    |                     -----> [child process 2.3.2]
+    |                     -----> [child process 2.2.1]
     |                                
     -----> [child process 3]
                |
                -----> [child process 3.1]
                |          |
                |          -----> [child process 3.1.1]
-               |          |          
-               |          -----> [child process 3.1.2]
                |                     
                -----> [child process 3.2]
-               |          |
-               |          -----> [child process 3.2.1]
-               |          |          
-               |          -----> [child process 3.2.2]
-               |                     
-               -----> [child process 3.3]
                           |
-                          -----> [child process 3.3.1]
-                          |          
-                          -----> [child process 3.3.2]
+                          -----> [child process 3.2.1]
+In this example, the for loop only calls 'break;' in the case of an error in
+calling fork(). Assuming no errors are created, the program will go on to 
+create 16 processes (15 child, 1 main). The main process will run the for loop
+3 times, with each child of main beginning on the second iteration of the for 
+loop (i = 1). These children will run for 2 iterations of the for loop, 
+creating 2 child processes each. These new child processes begin on the third
+(and final) iteration of the for loop, running the fork() command once, forking
+1 child each. These add up to 15 child processes, with one great-grandparent 
+main process.
+
+Question 4:
+The histogram from the pinball game best resembles a normal distribution. This
+is best observed by looking at the proportion of balls that end up in each bin.
+In a sample run with 6 bins and 3000000 balls, the middle two bins contain 
+31.22% and 31.26% of the balls respectively. In a perfectly normal distribution
+these two numbers would be both 34.13% each. Similarly, the program results in
+bins 2 and 5 holding 15.61% and 15.66% of the balls respectively, whereas in a
+perfect normal distribution, these sections of the data would represent 13.59%
+of the distribution each. These numbers are extremely close to our actual 
+values, and thus it is reasonable to assume the distribution follows a normal
+distribution.

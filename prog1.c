@@ -20,7 +20,7 @@
 long fibonacci(int n);
 float buffon(int r);
 void ellipse(int a, int b, int s, char* buf);
-void ballDropping(int x, int y, char* buf);
+void ballDropping(int x, long y, char* buf);
 
 
 /* -------------------------------------------------------------------------------------------------------------------*/
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
     int b = atoi(argv[4]);
     int s = atoi(argv[5]);
     int x = atoi(argv[6]);
-    int y = atoi(argv[7]);
+    long y = atol(argv[7]);
 
     sprintf(buf, "Fibonacci Input            = %ld\n", n);
     write(1, buf, strlen(buf));
@@ -173,7 +173,7 @@ int main(int argc, char* argv[]) {
                     sprintf(buf, "Number of Bins %d\n", x);
                     write(1, buf, strlen(buf));
 
-                    sprintf(buf, "Number of Ball Droppings %d\n");
+                    sprintf(buf, "Number of Ball Droppings %ld\n", y);
                     write(1, buf, strlen(buf));
 
                     ballDropping(x, y, buf);
@@ -296,14 +296,14 @@ void ellipse(int a, int b, int s, char *buf) {
 /* FUNCTIONS CALLED :                                                                                                 */
 /*     calloc(), malloc, sprintf(), write(), strlen()                                                                 */
 /* -------------------------------------------------------------------------------------------------------------------*/
-void ballDropping(int x, int y, char* buf) {
+void ballDropping(int x, long y, char* buf) {
     int *bins = (int*) calloc(x, sizeof(int));
 
     double bin;
     int roll;
 
     for (int i = 0; i < y; i++) {
-        bin = (x / 2) + 0.5; //place ball above the starting peg
+        bin = ((double) x / 2) + 0.5; //place ball above the starting peg
         for (int j = 0; j < x - 1; j++) {
             roll = rand() % 2;
             if(roll) {
@@ -328,7 +328,7 @@ void ballDropping(int x, int y, char* buf) {
     }
 
     for (int i = 1; i <= x; i++) {
-        sprintf(buf,"%3d-(%7d)-(%5.2f%) | ", i, bins[i-1], percents[i - 1]);
+        sprintf(buf,"%3d-(%7d)-(%5.2f%%) | ", i, bins[i-1], percents[i - 1]);
         int numStars = ((float) percents[i -1] / max) * 50;
         for (int j = 0; j < numStars; j++) {
             int startInd = strlen(buf);
