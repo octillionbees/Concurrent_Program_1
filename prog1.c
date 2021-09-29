@@ -1,3 +1,13 @@
+/* -------------------------------------------------------------------------------------------------------------------*/
+/* NAME: Jade Wang                                                                                     User ID: jbwang*/
+/* DUE DATE: 09/29/2021                                                                                               */
+/* PROGRAM ASSIGNMENT 1                                                                                               */
+/* FILE NAME: prog1.c                                                                                                 */
+/* PROGRAM PURPOSE:                                                                                                   */
+/*   Demonstrate concurrent computing by creating a main process that forks 4 child processes, which each run         */
+/*   independant problems concurrently.                                                                               */
+/* -------------------------------------------------------------------------------------------------------------------*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -12,6 +22,16 @@ float buffon(int r);
 void ellipse(int a, int b, int s, char* buf);
 void ballDropping(int x, int y, char* buf);
 
+
+/* -------------------------------------------------------------------------------------------------------------------*/
+/* FUNCTION main function : (main)                                                                                    */
+/*     the main function forks 4 child processes, waits for them to complete, and then exits                          */
+/* PARAMETER USAGE :                                                                                                  */
+/*     argc: number of command line arguments                                                                         */
+/*     argv: array of command line arguments                                                                          */
+/* FUNCTIONS CALLED :                                                                                                 */
+/*     sprintf(), write(), fork(), wait(), fibonacci(), strlen(), atoi(), atol(), buffon(), ellipse(), ballDropping() */
+/* -------------------------------------------------------------------------------------------------------------------*/
 int main(int argc, char* argv[]) {
 
     char buf[100];
@@ -178,6 +198,14 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+/* -------------------------------------------------------------------------------------------------------------------*/
+/* FUNCTION fibonacci :                                                                                               */
+/*     recurssively calculates the nth fibonacci number                                                               */
+/* PARAMETER USAGE :                                                                                                  */
+/*     n: integer number to calculate fibonacci number of                                                             */
+/* FUNCTIONS CALLED :                                                                                                 */
+/*     fibonacci()                                                                                                    */
+/* -------------------------------------------------------------------------------------------------------------------*/
 long fibonacci(int n) {
     if (n == 0) {
         return 0;
@@ -188,6 +216,14 @@ long fibonacci(int n) {
     return (fibonacci(n - 1) + fibonacci(n - 2));
 }
 
+/* -------------------------------------------------------------------------------------------------------------------*/
+/* FUNCTION buffon :                                                                                                  */
+/*     find the probability of a needle thrown r times crossing over a given line experimentally                      */
+/* PARAMETER USAGE :                                                                                                  */
+/*     r: integer number of times to simulate needle being thrown                                                     */
+/* FUNCTIONS CALLED :                                                                                                 */
+/*     acos(), rand(), sinf()                                                                                         */
+/* -------------------------------------------------------------------------------------------------------------------*/
 float buffon(int r) {
     //r = iterations of problem
     const double PI = acos(-1.0); //define PI according to slides
@@ -209,6 +245,17 @@ float buffon(int r) {
     return (float) t/r;
 }
 
+/* -------------------------------------------------------------------------------------------------------------------*/
+/* FUNCTION ellipse :                                                                                                 */
+/*     estimate the area of a given ellipse by randomly generating points within the first quadrant.                  */
+/* PARAMETER USAGE :                                                                                                  */
+/*     a: length of the semi-major axis of the ellipse                                                                */
+/*     b: length of the semi-minor axis of the ellipse                                                                */
+/*     s: number of times to randomly generate a point within (a, b)                                                  */
+/*     *buf: character buffer to be used for safely printing messages to stdout with sprintf+write                    */
+/* FUNCTIONS CALLED :                                                                                                 */
+/*     acos(), rand(), powf(), pow(), sprintf(), strlen(), write()                                                    */
+/* -------------------------------------------------------------------------------------------------------------------*/
 void ellipse(int a, int b, int s, char *buf) {
     //s = iterations of problem
     int t = 0;
@@ -239,6 +286,16 @@ void ellipse(int a, int b, int s, char *buf) {
     write(1, buf, strlen(buf));
 }
 
+/* -------------------------------------------------------------------------------------------------------------------*/
+/* FUNCTION ballDropping :                                                                                            */
+/*     simulate a simple pinball game dropping y balls into x bins                                                    */
+/* PARAMETER USAGE :                                                                                                  */
+/*     x: number of bins to simulate                                                                                  */
+/*     y: number of balls to simulate dropping                                                                        */
+/*     *buf: character buffer to be used for safely printing messages to stdout with sprintf+write                    */
+/* FUNCTIONS CALLED :                                                                                                 */
+/*     calloc(), malloc, sprintf(), write(), strlen()                                                                 */
+/* -------------------------------------------------------------------------------------------------------------------*/
 void ballDropping(int x, int y, char* buf) {
     int *bins = (int*) calloc(x, sizeof(int));
 
