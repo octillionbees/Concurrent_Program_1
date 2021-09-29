@@ -4,15 +4,18 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/wait.h>
+
 
 long fibonacci(int n);
 float buffon(int r);
-float ellipse(int a, int b, int s);
+void ellipse(int a, int b, int s, char* buf);
 void ballDropping(int x, int y);
 
 int main(int argc, char* argv[]) {
 
     char buf[100];
+    int status;
 
     sprintf(buf, "Main Process Started\n");
     write(1, buf, strlen(buf));
@@ -62,6 +65,20 @@ int main(int argc, char* argv[]) {
         //child process 1 logic
         sprintf(buf, "Fibonacci Process Created\n");
         write(1, buf, strlen(buf));
+
+        sprintf(buf, "   Fibonacci Process Started\n");
+        write(1, buf, strlen(buf));
+
+        sprintf(buf, "   Input Number %d\n", n);
+        write(1, buf, strlen(buf));
+
+        long fibResult = fibonacci(n);
+        sprintf(buf,"   Fibonacci Number f(%d) is %ld\n", n, fibResult);
+        write(1, buf, strlen(buf));
+
+        sprintf(buf,"   Fibonacci Process Exits\n");
+        write(1, buf, strlen(buf));
+
     } else {
         //still in main process
         pid = fork(); //reassign because we don't need pid to distinguish processes anymore
@@ -73,6 +90,20 @@ int main(int argc, char* argv[]) {
             //child process 2 logic
             sprintf(buf, "Buffon's Needle Process Created\n");
             write(1, buf, strlen(buf));
+
+            sprintf(buf, "      Buffon's Needle Process Started\n");
+            write(1, buf, strlen(buf));
+
+            sprintf(buf, "      Input Number %d\n", r);
+            write(1, buf, strlen(buf));
+
+            float bufResult = buffon(r);
+            sprintf(buf, "      Estimated Probability is %0.5f\n", bufResult);
+            write(1, buf, strlen(buf));
+
+            sprintf(buf, "      Buffon's Needle Process Exits\n");
+            write(1, buf, strlen(buf));
+
         } else {
             //still in main process
             pid = fork();
@@ -84,6 +115,19 @@ int main(int argc, char* argv[]) {
                 //child process 3 logic
                 sprintf(buf, "Ellipse Area Process Created\n");
                 write(1, buf, strlen(buf));
+
+                sprintf(buf, "         Ellipse Area Process Started\n");
+                write(1, buf, strlen(buf));
+
+                sprintf(buf, "         Total random Number Pairs %d\n", s);
+                write(1, buf, strlen(buf));
+
+                sprintf(buf, "         Semi-Major Axis Length %d\n", a);
+                write(1, buf, strlen(buf));
+
+                sprintf(buf, "         Semi-Minor Axis Length %d\n", b);
+                write(1, buf, strlen(buf));
+
             } else {
                 //still in main process
                 pid = fork();
@@ -97,25 +141,33 @@ int main(int argc, char* argv[]) {
                     write(1, buf, strlen(buf));
                 } else {
                     //still in main process
-                    sprintf(buf, "Main Process Waits?\n");
+                    sprintf(buf, "Main Process Waits\n");
+                    write(1, buf, strlen(buf));
+
+                    wait(&status);
+                    wait(&status);
+                    wait(&status);
+                    wait(&status);
+
+
+                    sprintf(buf, "Main Process Exits\n");
                     write(1, buf, strlen(buf));
                 }
             }
         }
     }
 
-
-    sprintf(buf, "Main Process Exits\n");
-    write(1, buf, strlen(buf));
     return 0;
 }
 
 long fibonacci(int n) {
-    if (n < 2) {
+    if (n == 0) {
+        return 0;
+    } else if (n == 1) {
         return 1;
     }
 
-    return fibonacci(n - 1) + fibonacci(n - 2);
+    return (fibonacci(n - 1) + fibonacci(n - 2));
 }
 
 float buffon(int r) {
@@ -127,8 +179,8 @@ float buffon(int r) {
     int t = 0;
 
     for (int i = 0; i < r; i++) {
-        d = ((float) rand()) / RAND_MAX;
-        a = d * 2 * PI;
+        d = (((float) rand()) / RAND_MAX);
+        a = (d * 2 * PI);
 
         float result = d + sinf(a);
         if (result < 0 || result > 1) {
@@ -136,10 +188,10 @@ float buffon(int r) {
         }
     }
 
-    return t/r;
+    return (float) t/r;
 }
 
-float ellipse(int a, int b, int s) {
+void ellipse(int a, int b, int s, char *buf) {
     //s = iterations of problem
     int t = 0;
     float x;
@@ -156,7 +208,7 @@ float ellipse(int a, int b, int s) {
         }
     }
 
-    return ((t/s) * a * b) * 4;
+    ((t/s) * a * b) * 4;
 }
 
 void ballDropping(int x, int y) {
