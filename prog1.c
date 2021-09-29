@@ -48,6 +48,62 @@ int main(int argc, char* argv[]) {
     sprintf(buf, "Number of Ball Droppings   = %d\n", y);
     write(1, buf, strlen(buf));
 
+    //Begin forking children
+    pid_t pid;
+    pid = fork(); //no clue why but my IDE throws a fit when I do this, but the linux compiler takes it fine and it
+                  //seems to work so CLion can just be quiet for now.
+
+    //someone smarter than me could probably do this a better way. I am not that person.
+
+    if (pid < 0) {
+        sprintf(buf, "First Fork Failed!\n");
+        write(1, buf, strlen(buf));
+    } else if (pid == 0) {
+        //child process 1 logic
+        sprintf(buf, "Fibonacci Process Created\n");
+        write(1, buf, strlen(buf));
+    } else {
+        //still in main process
+        pid = fork(); //reassign because we don't need pid to distinguish processes anymore
+
+        if (pid < 0) {
+            sprintf(buf, "Second Fork Failed!\n");
+            write(1, buf, strlen(buf));
+        } else if (pid == 0) {
+            //child process 2 logic
+            sprintf(buf, "Buffon's Needle Process Created\n");
+            write(1, buf, strlen(buf));
+        } else {
+            //still in main process
+            pid = fork();
+
+            if (pid < 0) {
+                sprintf(buf, "Third Fork Failed!\n");
+                write(1, buf, strlen(buf));
+            } else if (pid == 0) {
+                //child process 3 logic
+                sprintf(buf, "Ellipse Area Process Created\n");
+                write(1, buf, strlen(buf));
+            } else {
+                //still in main process
+                pid = fork();
+
+                if (pid < 0) {
+                    sprintf(buf, "Fourth Fork Failed!\n");
+                    write(1, buf, strlen(buf));
+                } else if ( pid == 0 ) {
+                    //child process 4 logic
+                    sprintf(buf, "Pinball Process Created\n");
+                    write(1, buf, strlen(buf));
+                } else {
+                    //still in main process
+                    sprintf(buf, "Main Process Waits?\n");
+                    write(1, buf, strlen(buf));
+                }
+            }
+        }
+    }
+
 
     sprintf(buf, "Main Process Exits\n");
     write(1, buf, strlen(buf));
