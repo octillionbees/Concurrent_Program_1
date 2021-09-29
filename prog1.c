@@ -85,7 +85,7 @@ float ellipse(int a, int b, int s) {
 }
 
 void ballDropping(int x, int y) {
-    int bins = calloc(x, sizeof(int));
+    int *bins = (int*) calloc(x, sizeof(int));
 
     double bin;
     int roll;
